@@ -1,0 +1,6 @@
+env
+.git
+.env
+assets
+temp
+__pycache__
