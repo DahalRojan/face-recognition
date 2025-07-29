@@ -4,11 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from ai.core import init_routers
 
 description = """
-    A RESTful face recognition tool part of BitsKraft AI suit
+    A RESTful face recognition tool
 """
 
 app = FastAPI(
-    title="Bitskraft Face Recognition Api",
+    title="Face Recognition API",
     description=description,
     version="2"
 )
