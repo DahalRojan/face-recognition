@@ -8,6 +8,7 @@ import cv2
 
 
 GREEN = "#00FF00"
+FACE_RECOGNITION_TOLERANCE = 0.45
 
 class Recognition:
     def __init__(self, image=None, path=None):
@@ -16,7 +17,7 @@ class Recognition:
         elif path:
             self.image = Image(path=path)
         else:
-            raise HTTPException('you mush load an image')
+            raise HTTPException(status_code=400, detail='You must load an image')
         
 
     @staticmethod
@@ -46,11 +47,11 @@ class Recognition:
         return pil_image
         
     @staticmethod
-    def compare_images(first_image_path, second_image_path, facial_landmarks=True, tolerance=0.45):
+    def compare_images(first_image_path, second_image_path, facial_landmarks=True, tolerance=FACE_RECOGNITION_TOLERANCE):
         unknown_encoding = Recognition.find_encoding(path=first_image_path)
         original_encoding = Recognition.find_encoding(path=second_image_path)
         if not original_encoding:
-            raise HTTPException(status_code=404, detail="Item not found")
+            raise HTTPException(status_code=404, detail="No face found in the image")
         face_matches = fr.compare_faces(original_encoding, unknown_encoding[0], tolerance=tolerance)
         face_distance = fr.face_distance(original_encoding, unknown_encoding[0])
         match_index = np.argmin(face_distance)
